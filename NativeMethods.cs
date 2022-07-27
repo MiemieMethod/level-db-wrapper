@@ -12,7 +12,7 @@ namespace LevelDBWrapper
         internal static readonly Encoding Encoding = Encoding.UTF8;
 
         [DllImport("leveldb.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr leveldb_open(IntPtr options, string name, out IntPtr error);
+        internal static extern IntPtr leveldb_open(IntPtr options, byte[] path, out IntPtr error);
         [DllImport("leveldb.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr leveldb_options_create();
         [DllImport("leveldb.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
