@@ -44,11 +44,10 @@ namespace LevelDBWrapper
         }
     }
 
-    public class LevelDB : LevelDBHandle, IEnumerable<KeyValuePair<string, string>>, IEnumerable<KeyValuePair<byte[], byte[]>>, IEnumerable<KeyValuePair<string, byte[]>>
+    public class LevelDB : LevelDBHandle
     {
         public LevelDB(string path)
         {
-            Console.WriteLine($"Opening {path}");
             IntPtr error;
             var options = new Options();
             Handle = NativeMethods.leveldb_open(options.Handle, Encoding.UTF8.GetBytes(path), out error);
@@ -166,7 +165,7 @@ namespace LevelDBWrapper
             return new Iterator(NativeMethods.leveldb_create_iterator(this.Handle, options.Handle));
         }
 
-        IEnumerator<KeyValuePair<string, string>> IEnumerable<KeyValuePair<string, string>>.GetEnumerator()
+        public IEnumerable<string> StringKeys()
         {
             using (var sn = this.CreateSnapshot())
             using (var iterator = this.CreateIterator(new ReadOptions { Snapshot = sn }))
@@ -174,13 +173,27 @@ namespace LevelDBWrapper
                 iterator.SeekToFirst();
                 while (iterator.IsValid())
                 {
-                    yield return new KeyValuePair<string, string>(iterator.StringKey(), iterator.StringValue());
+                    yield return iterator.StringKey();
                     iterator.Next();
                 }
             }
         }
 
-        IEnumerator<KeyValuePair<string, byte[]>> IEnumerable<KeyValuePair<string, byte[]>>.GetEnumerator()
+        public IEnumerable<byte[]> ByteKeys()
+        {
+            using (var sn = this.CreateSnapshot())
+            using (var iterator = this.CreateIterator(new ReadOptions { Snapshot = sn }))
+            {
+                iterator.SeekToFirst();
+                while (iterator.IsValid())
+                {
+                    yield return iterator.Key();
+                    iterator.Next();
+                }
+            }
+        }
+
+        public IEnumerable<KeyValuePair<string, byte[]>> StringBytePairs()
         {
             using (var sn = this.CreateSnapshot())
             using (var iterator = this.CreateIterator(new ReadOptions { Snapshot = sn }))
@@ -194,7 +207,7 @@ namespace LevelDBWrapper
             }
         }
 
-        public IEnumerator<KeyValuePair<byte[], byte[]>> GetEnumerator()
+        public IEnumerable<KeyValuePair<byte[], byte[]>> ByteBytePairs()
         {
             using (var sn = this.CreateSnapshot())
             using (var iterator = this.CreateIterator(new ReadOptions { Snapshot = sn }))
@@ -206,11 +219,6 @@ namespace LevelDBWrapper
                     iterator.Next();
                 }
             }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
         }
     }
 
