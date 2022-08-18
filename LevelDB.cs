@@ -22,10 +22,10 @@ namespace LevelDBWrapper
 
         protected virtual void FreeUnManagedObjects() { }
 
-        bool _disposed = false;
+        public bool Disposed { get; private set; } = false;
         void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (!Disposed)
             {
                 if (disposing)
                     FreeManagedObjects();
@@ -34,7 +34,7 @@ namespace LevelDBWrapper
                     FreeUnManagedObjects();
                     this.Handle = IntPtr.Zero;
                 }
-                _disposed = true;
+                Disposed = true;
             }
         }
 
