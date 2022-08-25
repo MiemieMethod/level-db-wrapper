@@ -144,14 +144,14 @@ namespace LevelDBWrapper
         }
         public static IntPtr leveldb_iter_value(IntPtr iterator, out int length)
         {
-            return Environment.Is64BitProcess ? NativeMethods64.leveldb_iter_value(iterator, out length) : NativeMethods32.leveldb_iter_value( iterator, out  length);
+            return Environment.Is64BitProcess ? NativeMethods64.leveldb_iter_value(iterator, out length) : NativeMethods32.leveldb_iter_value(iterator, out length);
         }
         public static void leveldb_iter_destroy(IntPtr iterator)
         {
             if (Environment.Is64BitProcess)
-                NativeMethods64.leveldb_iter_destroy( iterator);
+                NativeMethods64.leveldb_iter_destroy(iterator);
             else
-                NativeMethods32.leveldb_iter_destroy( iterator);
+                NativeMethods32.leveldb_iter_destroy(iterator);
         }
         public static void leveldb_options_set_compression(IntPtr options, int n)
         {
@@ -170,9 +170,9 @@ namespace LevelDBWrapper
         public static void leveldb_writebatch_destroy(IntPtr batch)
         {
             if (Environment.Is64BitProcess)
-                NativeMethods64.leveldb_writebatch_destroy( batch);
+                NativeMethods64.leveldb_writebatch_destroy(batch);
             else
-                NativeMethods32.leveldb_writebatch_destroy( batch);
+                NativeMethods32.leveldb_writebatch_destroy(batch);
         }
     }
 
