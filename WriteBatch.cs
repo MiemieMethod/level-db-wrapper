@@ -22,6 +22,17 @@ public class WriteBatch : LevelDBHandle
         NativeMethods.leveldb_writebatch_put(Handle, key, key.Length, value, value.Length);
         return this;
     }
+    
+    public WriteBatch Delete(string key)
+    {
+        return Delete(NativeMethods.Encoding.GetBytes(key));
+    }
+
+    public WriteBatch Delete(byte[] key)
+    {
+        NativeMethods.leveldb_writebatch_delete(Handle, key, key.Length);
+        return this;
+    }
 
     protected override void FreeUnmanagedObjects()
     {

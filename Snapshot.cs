@@ -20,11 +20,7 @@ public class Snapshot : LevelDBHandle
 
     protected override void FreeUnmanagedObjects()
     {
-        if (Parent.IsAlive)
-        {
-            var parent = Parent.Target as LevelDB;
-            if (parent != null)
-                NativeMethods.leveldb_release_snapshot(parent.Handle, this.Handle);
-        }
+        if (Parent.IsAlive && Parent.Target is LevelDB db)
+            NativeMethods.leveldb_release_snapshot(db.Handle, this.Handle);
     }
 }

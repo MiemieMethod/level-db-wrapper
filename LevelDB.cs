@@ -7,10 +7,9 @@ namespace LevelDBWrapper;
 
 public class LevelDB : LevelDBHandle
 {
-    public LevelDB(string path)
+    public LevelDB(string path, Options options)
     {
         IntPtr error;
-        var options = new Options();
         Handle = NativeMethods.leveldb_open(options.Handle, Encoding.UTF8.GetBytes(path), out error);
         Throw(error);
     }
