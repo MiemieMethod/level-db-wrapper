@@ -5,11 +5,10 @@
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <ItemGroup>
-            <ItemsToCopy Include="$(ProjectDir)leveldb/*"/>
-        </ItemGroup>
-        <Copy SourceFiles="@(ItemsToCopy)"
-              DestinationFolder="$(OutDir)"/>
-    </Target>
+    <ItemGroup>
+        <Content Include="$(ProjectDir)leveldb/**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>%(Filename)%(Extension)</Link>
+        </Content>
+    </ItemGroup>
 </Project>
