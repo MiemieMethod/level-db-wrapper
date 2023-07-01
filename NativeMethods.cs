@@ -24,7 +24,10 @@ namespace LevelDBWrapper
             }
             else if (OperatingSystem.IsLinux())
             {
-                source = "leveldb_mcpe_linux_x86_64.so";
+                if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+                    source = "leveldb_mcpe_linux_arm.so";
+                else
+                    source = "leveldb_mcpe_linux_x86_64.so";
                 target = "leveldb.so";
             }
             else if (OperatingSystem.IsMacOS())
