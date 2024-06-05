@@ -180,4 +180,9 @@ public class LevelDB : LevelDBHandle
             }
         }
     }
+
+    public void Compact()
+    {
+        NativeMethods.leveldb_compact_range(this.Handle, null, IntPtr.Zero, null, IntPtr.Zero);
+    }
 }
