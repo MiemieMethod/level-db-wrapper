@@ -22,19 +22,6 @@ namespace LevelDBWrapper
                 source = Environment.Is64BitProcess ? "leveldb_mcpe_win_amd64.dll" : "leveldb_mcpe_win32.dll";
                 target = "leveldb.dll";
             }
-            else if (OperatingSystem.IsLinux())
-            {
-                if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
-                    source = "leveldb_mcpe_linux_arm.so";
-                else
-                    source = "leveldb_mcpe_linux_x86_64.so";
-                target = "leveldb.so";
-            }
-            else if (OperatingSystem.IsMacOS())
-            {
-                source = "leveldb_mcpe_macosx_10_9_x86_64.dylib";
-                target = "leveldb.dylib";
-            }
 
             if (source != null && target != null)
             {
